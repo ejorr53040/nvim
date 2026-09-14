@@ -6,12 +6,12 @@ vim.lsp.config('rust_analyzer', {
   },
 })
 vim.lsp.config('jdtls')
---vim.lsp.config('clangd', {
---cmd = {'clangd', '--background-index', '--clang-tidy', '--log=verbose'},
-  --init_options = {
-    --fallbackFlags = { '-std=c++17' },
-  --},
---})
+vim.lsp.config('clangd', {
+cmd = {'clangd', '--background-index', '--clang-tidy', '--log=verbose'},
+  init_options = {
+    fallbackFlags = { '-std=c++17' },
+  },
+})
 
 --vim.lsp.config('cmake-language-server')
 vim.lsp.config('docker-language-server')

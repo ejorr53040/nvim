@@ -48,6 +48,34 @@ require('nvim-treesitter').setup {
   -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
   install_dir = vim.fn.stdpath('data') .. '/site'
 }
+
+
 vim.o.background = "dark" -- or "light" for light mode
 vim.cmd([[colorscheme gruvbox]])
-vim.lsp.enable "ocamllsp"
+-- Split Behavior
+vim.opt.splitbelow = true -- Horizontal splits open below
+vim.opt.splitright = true -- Vertical splits open to the right
+
+-- Visual Settings
+vim.opt.termguicolors = true -- Enable 24-bit colors
+vim.opt.signcolumn = "yes" -- Always show sign column
+vim.opt.colorcolumn = "100" -- Show column at 100 characters
+vim.opt.showmatch = true -- Highlight matching brackets
+vim.opt.matchtime = 2 -- How long to show matching bracket
+vim.opt.completeopt = "menuone,noinsert,noselect" -- Completion options
+vim.opt.showmode = false -- Don't show mode in command line
+vim.opt.pumheight = 10 -- Popup menu height
+vim.opt.pumblend = 10 -- Popup menu transparency
+vim.opt.winblend = 0 -- Floating window transparency
+vim.opt.conceallevel = 2 -- Obsidian requirement
+vim.opt.concealcursor = "" -- Show markup even on cursor line
+vim.opt.redrawtime = 10000 -- Timeout for syntax highlighting redraw
+vim.opt.maxmempattern = 20000 -- Max memory for pattern matching
+vim.opt.synmaxcol = 300 -- Syntax highlighting column limit
+
+-- Search Settings
+vim.opt.ignorecase = true -- Case-insensitive search
+vim.opt.smartcase = true -- Case-sensitive if uppercase in search
+vim.opt.hlsearch = false -- Don't highlight search results
+vim.opt.incsearch = true -- Show matches as you type
+

@@ -28,52 +28,6 @@ end
     require("dbee").setup(--[[optional config]])
   end,
 },
-{
-  "Isrothy/neominimap.nvim",
-  version = "v3.x.x",
-  lazy = false, -- NOTE: NO NEED to Lazy load
-  -- Optional. You can also set your own keybindings
-  keys = {
-    -- Global Minimap Controls
-    { "<leader>nm", "<cmd>Neominimap Toggle<cr>", desc = "Toggle global minimap" },
-    { "<leader>no", "<cmd>Neominimap Enable<cr>", desc = "Enable global minimap" },
-    { "<leader>nc", "<cmd>Neominimap Disable<cr>", desc = "Disable global minimap" },
-    { "<leader>nr", "<cmd>Neominimap Refresh<cr>", desc = "Refresh global minimap" },
-
-    -- Window-Specific Minimap Controls
-    { "<leader>nwt", "<cmd>Neominimap WinToggle<cr>", desc = "Toggle minimap for current window" },
-    { "<leader>nwr", "<cmd>Neominimap WinRefresh<cr>", desc = "Refresh minimap for current window" },
-    { "<leader>nwo", "<cmd>Neominimap WinEnable<cr>", desc = "Enable minimap for current window" },
-    { "<leader>nwc", "<cmd>Neominimap WinDisable<cr>", desc = "Disable minimap for current window" },
-
-    -- Tab-Specific Minimap Controls
-    { "<leader>ntt", "<cmd>Neominimap TabToggle<cr>", desc = "Toggle minimap for current tab" },
-    { "<leader>ntr", "<cmd>Neominimap TabRefresh<cr>", desc = "Refresh minimap for current tab" },
-    { "<leader>nto", "<cmd>Neominimap TabEnable<cr>", desc = "Enable minimap for current tab" },
-    { "<leader>ntc", "<cmd>Neominimap TabDisable<cr>", desc = "Disable minimap for current tab" },
-
-    -- Buffer-Specific Minimap Controls
-    { "<leader>nbt", "<cmd>Neominimap BufToggle<cr>", desc = "Toggle minimap for current buffer" },
-    { "<leader>nbr", "<cmd>Neominimap BufRefresh<cr>", desc = "Refresh minimap for current buffer" },
-    { "<leader>nbo", "<cmd>Neominimap BufEnable<cr>", desc = "Enable minimap for current buffer" },
-    { "<leader>nbc", "<cmd>Neominimap BufDisable<cr>", desc = "Disable minimap for current buffer" },
-
-    ---Focus Controls
-    { "<leader>nf", "<cmd>Neominimap Focus<cr>", desc = "Focus on minimap" },
-    { "<leader>nu", "<cmd>Neominimap Unfocus<cr>", desc = "Unfocus minimap" },
-    { "<leader>ns", "<cmd>Neominimap ToggleFocus<cr>", desc = "Switch focus on minimap" },
-  },
-  init = function()
-    -- The following options are recommended when layout == "float"
-    vim.opt.wrap = false
-    vim.opt.sidescrolloff = 36 -- Set a large value
-
-    --- Put your configuration here
-    vim.g.neominimap = {
-      auto_enable = true,
-    }
-  end,
-},
 
 {
   {
@@ -151,104 +105,6 @@ require("telescope").load_extension("ui-select")
 end
 },
 {
-  "nvimdev/dashboard-nvim",
-  lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
-  opts = function()
-    local logo = [[                                                                    
-	                                                                                                    
-                 ░▒▒▒▒▒▒▒▒▒▒▒▒▒▓         ░                                                          
-                 ▒░▒▒▓▓▒▒▒▒▒▒▒▓▓▒▒▓                                                                 
-                 ▒▒▒▒▒▒▓▓▒▒▒▒▒▓▓▓▒▒▒   ▒▒▒▒▒▒▒                                                      
-                 ▒▒▒▒▒▓▓▓▓▓▒▒▒▒▒▓▒▒▒▒   ░▒▒▓▓▒▒▒▓                                    ░              
-                ▒▒▒▒▒▒▒▒▓░▓▓▒▒▓▓▒░░░░   ░░▒▓▓▓▒▒▓▓  ▒            ░                                  
-                ▒▒▒▒▒▒▒▒▒▓▓▓▒▓▓▓▒▓▒▒▒   ▒░░▒▓▓▓▒▓▓  ▒▒▒▒▒▒▒                                         
-                ▒▒▒▒▒▒▒▒▒▒▒▓▒▓▓▒▓▓▓▓▒    ░░▒▓▓▒▒▓▓  ▒▒▓░▒▒░░░                                       
-                   ▒▒▒▒▒░▒▒▒▓▓▓▒▓▓▓▒▓    ▒▒▓▓▓▒▓▓  ▒▒▒▓▓▒░░░░░▒  ▒░▒                                
-               ▒         ░░░░░▓░▓▓▓▒▓▓  ▓▓▓▓█▓▓▒▓  ░▒▒▓▓▒░░░░░░   ░░░▒▒▒                            
-              ▒▒▓▓▓▒        ▒▓▓▓░▓▓▓▓▓▓▓▓▓▓█▓▓▓▓  ▒░░▒▓▓▒░░░░░░   ░░░░▒▒░▓                          
-              ▒▒▒▓▓▓▓▒░      ▓▓▓▓▓░▓▓▒▒░▓▒▒█▓▓▓▓   ▒░▒▓▓░░░░░░   ▒░░░▒▒▒▒▒▒                         
-             ▒▒▒▒▒▒▒▓▓▓▒▒▒▒▒▒▒▓▓▓▓▓░▒▒▒░▓▓▓▓▓▓▓    ▓▒▒▒▓▒░░░░░   ░░░░▒▒▒▒▓▓▓                        
-             ▒▒▒▒▓░▒▓▒░▒▓▒▓▓▓▓▓▓▓▓▓▓▒▒▒░▓░▓▓▓▓     ▓▒▓▒░░░░░░    ░░░░░▒▓▒▓▓▓                        
-             ▒▒▒░▒▒▒▒▒▒▒▒▒▒░░▒▓▓▓▓▓▓▓▓░▒░▒▒▓▓▓     █▓▓▓▒░░░░     ▒░░▒░▓▓▓▒▒▒  ▒▒▒                   
-               ░▒░▒▒▒▒▒▒▒▒▒▒▓▒▒▒▓▓▒▒▒░░░▒░▒▒▓▓▓    ▓▓▓░░░░      ▒▒░░░▒▒▒▒▒▒   ░░░░                  
-                 ▒▒▒▒▒▒▒▒▒▒▒▒▒▓▒▓▒▓▒▓▓▓▓▒░░░░▒▓▓▓▓▓▓▓▓▒░░       ▓▒░▒░░▒▒▒▒   ░▒░░░░░                
-            ░▓▓      ▒▒▒▒▒▒▒▒▒░▒▒▓▓▓▓▓▓▓▓▓░░░░▒░▓▓▓▓▓░░░░      ▓▓▒▒▒▒░▒▒▒   ▒▒▒▒░░░░░               
-             ▒▓▓▓▒▒▓             ▒▓▓▓▓▓▓▓▓▓░░░░░░▒▒▒░▒▒░   ░  ▓▓▓▒▒░░░░▒   ▒░▒▒░░░░░░░              
-             ▒▒▒▓▓▓▒▒▒▒▒▒            ▓▓▓▓░▓▓▒░░▒░░▒░▒▒░▒     ▓▓▒▒▒░░░░    ▒░▒▒▒░░░░░░░░             
-             ▒▒▒▒▒░▒▓▓▒▒▒▒▒▒░▒     ▓▒▓▓▓▓▓▓░▒▓░▒░░░▒▒░░▒    ▓▓▓░▒░░░     ▒▒▒▒▒░░░░░░░░░             
-            ▒▒▒▒▓▓▓▓▓▒░▒▒▒▒▒▒▒▒▒▒▒▒▓▒▓░▒▓▒▒▒▒▒▓░░░▒▒░░▒▒▒▒▒▓▓▒░▒░░░     ▓▓▒▒▒▒░░░░░░░░              
-             ▒▒▒▒▒▒▒▒▓▒▒▒▒▒▒▒░░░░░░░░░░░░░░░░░░▒▒░░░░░░░▒▒▒▒▓░▒░░░    ▓▓▓▓▓▒▒░░░░░░░                
-             ▒▒▒▒▒▒▒▒▒▒▒░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓░░░░░▒░░▒░▒▒▒░░░▒▒▓▓▓▓░▓▓▒▒░░░░░     ▒░           
-              ▒▒▒▒▒▒▒░░░░░░░░░░░░░▒▒▒▒░░░░░▒▓░▓▓▓▓▓▒░▒░░░▒░▒░▒░░▒▒▓▓▓▓░▓▓▓▓▒▒▒       ▒▒▒░░          
-                ▒▒▒▒░░░░░░░░▒░           ░▒░▓▒▓▓▓▓▓▓▓░░░▒░▒▒▒░░░▒▓▓▓░▓▓▓▓▓        ▓▓▓▒▒░░░          
-   ░                                    ▒▒▓▓▒▒▓▓▒▓▓▓▓▓░░░▒░░░░░░▒▓▒▓█▓▓▓      ▓▓▓▓▓▓▓░▒░░░░         
-               ▒▓                   ▒▒▒▒▒▒▒▒▒▒░▒▒░░░▒▓▒▓▒░▒░░░░░▒░▓█▓█▓▓▓▓▓▓▓▓▓▓▓▓░▓▒▒▒░░░░         
-                ▓▓▓▒▒▒▒▒▒▒▒▒▒░░░░░░░░▒▒▒▒░░░░░▒▒▒▒▒▒▒▒▓▓█▓░░░░░░░▓█▓▓▓██▓█▓▓▓▒▓▓▓▒▒▒▒░░░░░░         
-                ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░▒▒▒▒░▒▒▒░░░░░░░░▒▒▓███▓▓░░░▓█▓█▓███▒▒▓▓▓▓▒▓▓▒▒▒░░░░░░░          
-                 ▒▒▒▒▒▒▒▒▒░░░░░▒░░░░░░░░░▒▒▒▒░░░░▒▒░▒▓▓▓██▓░░░░▒▒▓██▓▓▓▓▓▓▓▓▓▓▓▓▒▒░░░░░░░░          
-                  ▒▒▒▒░░░░░░░░░░░░░░░░░     ▒▒▒▒▒▒▒▒░▒▓▒░▓░▓▓▓▓▓░░▒▓▓█▓▓▓▓▓▓▓▓▓▓▒▒▒░░░░░░           
-                   ▒▒▒░░░░░░░░░░░░░▒        ▒▒▒▒▒░▒▒░░▒▓▓▒▓██▓██▓▒░░ ▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░            
-                     ▒▒░░░░░░░░░░         ▒▒▒▒▒▒░░▒▒▒▒▓█▓▓▓▓▒█▓███ ▒░░▒▓▓▓▓▓▓▓▓▒▒▒▒▒░░              
-                                     ▒▒▒░░░▒▒░▒▒▒░░▒▒▓▓▓░▓▓▓▓█▓████  ▒░░▓▓▓▓▒▒▒▒▒▒▒▒                
-                               ░▓▒▒▒░░░░░░░▒░░░░░░▒▒▓▓▓░▒▓▓▓▒███████  ▒░░  ▓▒▒▒▒                    
-                         ▓  ▓▒▒▒▒▒▒░░▒░░░░░░░     ▒▒▓▓░▒░▓▒▓▒▓█▓█████   ▒░                          
-                           ░▒▒▒▒░▒░░░░░░░░░▒     ▒▒▒▓░░░░▓▓▓▓▓▓▓█████    ▒░                         
-                            ▒▒▒░░░░░░░░░░░░     ▒▒▒▓░▒░▒▒▒▓▒▓▓▓▓▓███▓     ░░                        
-                              ░░░░░░░░░░░▒    ▓▒▒▒▒░▒▒░▒  ▓▓▓▒▓▓▓▓▓▓▓      ░░                       
-                                ▒░░░░░     ▓▓▓▓▒▒▒▒▒▒▒▒▒   ▒▓▓▓▓▓▓▓▓▓      ▒░                       
-                                        ▓▓▓▓▓▓▓░░░░░░░░░    ▒▒▓▓▓▓▓▒        ▒░                      
-                                     ▒▒▒▒▓▓▓▓▓▒▒▒░░░░▒▒▒   ▒▒▒▒▓▓▒▓         ▒░                      
-                                  ░     ░░░░▒▒▒▒░░░░▒▒▒▒   ▒▒▒▒▒▒▓           ░                      
-           ░                              ░░▒▒▒▒▒▒▒░▒▒▒    ▒▒▒ ░             ▒░                     
-                                              ▒▒▒▒▒▒▒                        ▒░                     
-        ░                                                                    ▓░                     
-                                                                                                    
-	]]
-
-    logo = string.rep("\n", 8) .. logo .. "\n\n"
-
-    local opts = {
-      theme = "doom",
-      hide = {
-        -- this is taken care of by lualine
-        -- enabling this messes up the actual laststatus setting after loading a file
-        statusline = false,
-      },
-      config = {
-        header = vim.split(logo, "\n"),
-        -- stylua: ignore
-        center = {
-        },
-        footer = function()
-          local stats = require("lazy").stats()
-          local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-          return { "Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" ..	" Commands: <C-s> terminal  <leader>fs file_tree  <leader>ff find_file"}
-        end,
-      },
-    }
-
-    for _, button in ipairs(opts.config.center) do
-      button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
-      button.key_format = "  %s"
-    end
-
-    -- open dashboard after closing lazy
-    if vim.o.filetype == "lazy" then
-      vim.api.nvim_create_autocmd("WinClosed", {
-        pattern = tostring(vim.api.nvim_get_current_win()),
-        once = true,
-        callback = function()
-          vim.schedule(function()
-            vim.api.nvim_exec_autocmds("UIEnter", { group = "dashboard" })
-          end)
-        end,
-      })
-    end
-
-    return opts
-  end,
-},
-{
   "NeogitOrg/neogit",
   lazy = true,
   dependencies = {
@@ -278,45 +134,11 @@ end
     open_mapping = "<c-s>",
   }
 },
-{
-  'kristijanhusak/vim-dadbod-ui',
-  dependencies = {
-    { 'tpope/vim-dadbod', lazy = true },
-    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }, -- Optional
-  },
-  cmd = {
-    'DBUI',
-    'DBUIToggle',
-    'DBUIAddConnection',
-    'DBUIFindBuffer',
-  },
-  init = function()
-    -- Your DBUI configuration
-    vim.g.db_ui_use_nerd_fonts = 1
-  end,
-},
-	{
-  'nvim-java/nvim-java',
-  config = function()
-    require('java').setup()
-    vim.lsp.enable('jdtls')
-  end,
-},
 	{ "tarides/ocaml.nvim",
     config = function()
       require("ocaml").setup()
     end
   },
-	{
-    'brianhuster/live-preview.nvim',
-    dependencies = {
-        -- You can choose one of the following pickers
-        'nvim-telescope/telescope.nvim',
-        'ibhagwan/fzf-lua',
-        'echasnovski/mini.pick',
-		'folke/snacks.nvim',
-    },
-	},
 	{
     "mfussenegger/nvim-dap",
     event = "VeryLazy",

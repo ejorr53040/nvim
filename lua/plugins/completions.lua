@@ -21,7 +21,6 @@ return { "hrsh7th/nvim-cmp",
         end
       },
       completion = {
-        
       },
       mapping = cmp.mapping.preset.insert ({
         ["<Tab>"] = cmp.mapping(function(fallback)
