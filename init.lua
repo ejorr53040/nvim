@@ -21,10 +21,7 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' 
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 vim.keymap.set('n', '<leader>fs', ':Neotree filesystem reveal left<CR>', {})
 
-require('nvim-treesitter').setup {
-  -- Directory to install parsers and queries to (prepended to `runtimepath` to have priority)
-  install_dir = vim.fn.stdpath('data') .. '/site'
-}
+
 
 
 vim.o.background = "dark" -- or "light" for light mode
@@ -91,7 +88,9 @@ function M.nvim_create_augroups(definitions)
         api.nvim_command('augroup '..group_name)
         api.nvim_command('autocmd!')
         for _, def in ipairs(definition) do
-            local command = table.concat(vim.tbl_flatten{'autocmd', def}, ' ')
+            local command_parts = { 'autocmd' }
+            vim.list_extend(command_parts, def)
+            local command = table.concat(command_parts, ' ')
             api.nvim_command(command)
         end
         api.nvim_command('augroup END')
@@ -107,5 +106,3 @@ local autoCommands = {
 }
 
 M.nvim_create_augroups(autoCommands)
-
-
