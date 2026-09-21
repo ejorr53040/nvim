@@ -1,25 +1,17 @@
 return {
 	{
-    "mason-org/mason.nvim",
-    opts = {},
+		"mason-org/mason.nvim",
+		opts = {},
 	},
 	{
-    "mason-org/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "rust_analyzer", "clangd", "gopls", "pyright", "jdtls"}
-			})
-		end
+		"mason-org/mason-lspconfig.nvim",
+		dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
+		opts = {
+			ensure_installed = { "lua_ls", "rust_analyzer", "clangd", "gopls", "pyright", "ruff", "efm" },
+			-- servers are enabled explicitly in lua/lsp/init.lua; jdtls is installed and enabled by nvim-java
+			automatic_enable = { exclude = { "jdtls" } },
+		},
 	},
-	{
-		"neovim/nvim-lspconfig",
-		lazy = false,
-		config = function()
-		vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
-		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
-		vim.keymap.set({'n', 'v'}, '<leader>ca', vim.lsp.buf.code_action, {})
-	end,
-  },
 	{
   "p00f/clangd_extensions.nvim",
   ft = { "c", "cpp", "objc", "objcpp" },

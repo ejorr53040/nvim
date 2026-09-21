@@ -7,12 +7,10 @@ vim.cmd("set smarttab")
 vim.cmd("set softtabstop=2")
 vim.g.mapleader = " "
 require("config.lazy")
--- Bootstrap lazy.nvim
 vim.lsp.inlay_hint.enable()
-      vim.diagnostic.enable = true
-      vim.diagnostic.config({
-        virtual_lines = true,
-      })
+vim.diagnostic.config({
+  virtual_lines = true,
+})
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })

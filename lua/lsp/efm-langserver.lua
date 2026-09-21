@@ -1,6 +1,7 @@
 -- ================================================================================================
 -- TITLE : efm-langserver
 -- ABOUT : a general purpose language server protocol implemented here for linters/formatters
+--         (python is handled by ruff and c/cpp by clangd, so they are not listed here)
 -- LINKS :
 --   > github : https://github.com/mattn/efm-langserver
 --   > configs: https://github.com/creativenull/efmls-configs-nvim/tree/main
@@ -11,8 +12,6 @@
 return function(capabilities)
 	local luacheck = require("efmls-configs.linters.luacheck") -- lua linter
 	local stylua = require("efmls-configs.formatters.stylua") -- lua formatter
-	local flake8 = require("efmls-configs.linters.flake8") -- python linter
-	local black = require("efmls-configs.formatters.black") -- python formatter
 	local go_revive = require("efmls-configs.linters.go_revive") -- go linter
 	local gofumpt = require("efmls-configs.formatters.gofumpt") -- go formatter
 	local prettier_d = require("efmls-configs.formatters.prettier_d") -- ts/js/solidity/json/docker/html/css/react/svelte/vue formatter
@@ -21,16 +20,12 @@ return function(capabilities)
 	local shellcheck = require("efmls-configs.linters.shellcheck") -- bash linter
 	local shfmt = require("efmls-configs.formatters.shfmt") -- bash formatter
 	local hadolint = require("efmls-configs.linters.hadolint") -- docker linter
-	local cpplint = require("efmls-configs.linters.cpplint") -- c/cpp linter
-	local clangformat = require("efmls-configs.formatters.clang_format") -- c/cpp formatter
 
 	vim.lsp.config("efm", {
 		capabilities = capabilities,
 		filetypes = {
-			"c",
-			"cpp",
 			"css",
-			"docker",
+			"dockerfile",
 			"go",
 			"html",
 			"javascript",
@@ -39,7 +34,6 @@ return function(capabilities)
 			"jsonc",
 			"lua",
 			"markdown",
-			"python",
 			"sh",
 			"svelte",
 			"typescript",
@@ -56,10 +50,8 @@ return function(capabilities)
 		},
 		settings = {
 			languages = {
-				c = { clangformat, cpplint },
-				cpp = { clangformat, cpplint },
 				css = { prettier_d },
-				docker = { hadolint, prettier_d },
+				dockerfile = { hadolint, prettier_d },
 				go = { gofumpt, go_revive },
 				html = { prettier_d },
 				javascript = { eslint_d, prettier_d },
@@ -68,7 +60,6 @@ return function(capabilities)
 				jsonc = { eslint_d, fixjson },
 				lua = { luacheck, stylua },
 				markdown = { prettier_d },
-				python = { flake8, black },
 				sh = { shellcheck, shfmt },
 				svelte = { eslint_d, prettier_d },
 				typescript = { eslint_d, prettier_d },

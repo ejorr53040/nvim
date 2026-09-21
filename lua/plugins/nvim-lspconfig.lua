@@ -10,6 +10,7 @@
 
 return {
 	"neovim/nvim-lspconfig",
+	lazy = false, -- servers must be configured and enabled at startup
 	dependencies = {
 		{ "mason-org/mason.nvim", opts = {} }, -- LSP/DAP/Linter installer & manager
 		"creativenull/efmls-configs-nvim", -- Preconfigured EFM Language Server setups

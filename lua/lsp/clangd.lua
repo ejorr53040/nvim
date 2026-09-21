@@ -40,7 +40,8 @@ return function(capabilities)
 			})
 			on_dir(root or vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)))
 		end,
-		-- Used only when the project has no compilation database.
-		fallbackFlags = { "-std=c++17" },
+		-- Without a compilation database clangd falls back to the compiler defaults (gnu++17 for C++).
+		-- Don't set `init_options.fallbackFlags = { "-std=..." }`: it would apply to .c files too.
+		-- For a project, generate compile_commands.json (`bear -- make`, or cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON).
 	})
 end

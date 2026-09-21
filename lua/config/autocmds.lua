@@ -30,16 +30,36 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- format on save using efm langserver and configured formatters
+-- format on save. Languages with a native formatter use their own server, everything else goes
+-- through efm langserver and its configured formatters. Java is left out (jdtls would apply
+-- Eclipse's default style); format it on demand with vim.lsp.buf.format().
+local formatter_for = {
+	python = "ruff",
+	c = "clangd",
+	cpp = "clangd",
+	objc = "clangd",
+	objcpp = "clangd",
+	rust = "rust_analyzer",
+	ocaml = "ocamllsp",
+}
 local lsp_fmt_group = vim.api.nvim_create_augroup("FormatOnSaveGroup", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = lsp_fmt_group,
-	callback = function()
-		local efm = vim.lsp.get_clients({ name = "efm" })
-		if vim.tbl_isempty(efm) then
+	callback = function(args)
+		local ft = vim.bo[args.buf].filetype
+		if ft == "java" then
 			return
 		end
-		vim.lsp.buf.format({ name = "efm", async = true })
+		-- ocamlformat refuses to run outside a project that has a .ocamlformat file
+		if ft == "ocaml" and not vim.fs.root(args.buf, ".ocamlformat") then
+			return
+		end
+		local name = formatter_for[ft] or "efm"
+		if vim.tbl_isempty(vim.lsp.get_clients({ bufnr = args.buf, name = name })) then
+			return
+		end
+		-- must be synchronous: an async format would land after the buffer has already been written
+		vim.lsp.buf.format({ bufnr = args.buf, name = name, timeout_ms = 2000 })
 	end,
 })
 
