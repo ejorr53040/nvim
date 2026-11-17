@@ -17,6 +17,7 @@ require('code_runner').setup({
     },
     c = "cd $dir && gcc $fileName -o /tmp/$fileNameWithoutExt && /tmp/$fileNameWithoutExt",
 		cpp ="cd $dir && g++ $fileName -o /tmp/$fileNameWithoutExt && /tmp/$fileNameWithoutExt",
+		pascal = "cd $dir && fpc -Mobjfpc -Sh -Fu$dir -Fu$dir/../src -FU/tmp -o/tmp/$fileNameWithoutExt $fileName && /tmp/$fileNameWithoutExt",
   },
 })
 vim.keymap.set('n', '<leader>rr', ':RunCode<CR>', { noremap = true, silent = false })

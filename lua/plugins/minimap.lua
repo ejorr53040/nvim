@@ -17,7 +17,9 @@ return {
     { "<leader>nwc", "<cmd>Neominimap WinDisable<cr>", desc = "Disable minimap for current window" },
 
     -- Tab-Specific Minimap Controls
-    { "<leader>ntt", "<cmd>Neominimap TabToggle<cr>", desc = "Toggle minimap for current tab" },
+    -- Global toggle: the minimap starts disabled (auto_enable = false), and the tab-level flag defaults to on,
+    -- so TabToggle would only ever turn a tab "off" and never show anything.
+    { "<leader>ntt", "<cmd>Neominimap Toggle<cr>", desc = "Toggle minimap" },
     { "<leader>ntr", "<cmd>Neominimap TabRefresh<cr>", desc = "Refresh minimap for current tab" },
     { "<leader>nto", "<cmd>Neominimap TabEnable<cr>", desc = "Enable minimap for current tab" },
     { "<leader>ntc", "<cmd>Neominimap TabDisable<cr>", desc = "Disable minimap for current tab" },
@@ -40,7 +42,7 @@ return {
 
     --- Put your configuration here
     vim.g.neominimap = {
-      auto_enable = true,
+      auto_enable = false, -- off by default, toggle with <leader>ntt
     }
   end,
 }

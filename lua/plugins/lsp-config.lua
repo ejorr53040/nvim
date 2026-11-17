@@ -14,7 +14,7 @@ return {
 	},
 	{
   "p00f/clangd_extensions.nvim",
-  ft = { "c", "cpp", "objc", "objcpp" },
+  ft = { "c", "cpp", "objc", "objcpp", "cuda" },
   opts = {
     inlay_hints = {
       inline = false,

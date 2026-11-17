@@ -1,6 +1,6 @@
 -- ================================================================================================
 -- TITLE : vim-dadbod-ui
--- ABOUT : Database browser/query UI (:DBUI, <leader>D). Opening a .db/.sqlite file shows it in the drawer.
+-- ABOUT : Database browser/query UI (:DBUI, <leader>db). Opening a .db/.sqlite file shows it in the drawer.
 -- LINKS :
 --   > github : https://github.com/kristijanhusak/vim-dadbod-ui
 -- ================================================================================================
@@ -13,7 +13,7 @@ return {
 	},
 	cmd = { "DBUI", "DBUIToggle", "DBUIAddConnection", "DBUIFindBuffer" },
 	keys = {
-		{ "<leader>D", "<cmd>DBUIToggle<cr>", desc = "Toggle database UI" },
+		{ "<leader>db", "<cmd>DBUIToggle<cr>", desc = "Toggle database UI" },
 	},
 	init = function()
 		vim.g.db_ui_use_nerd_fonts = 1

@@ -1,6 +1,6 @@
 -- ================================================================================================
 -- TITLE : nvim-dap
--- ABOUT : debugging for python (debugpy), c/cpp/rust (codelldb), ocaml (earlybird) and java.
+-- ABOUT : debugging for python (debugpy), c/cpp/rust (codelldb), pascal (gdb), ocaml (earlybird) and java.
 --         Java is handled by nvim-java (lua/plugins/java.lua), which registers its own adapter
 --         and configurations once jdtls has attached.
 -- ================================================================================================
@@ -17,7 +17,6 @@ return {
   },
   keys = {
     { "<leader>b", function() dap().toggle_breakpoint() end, desc = "DAP: toggle breakpoint" },
-    { "<leader>db", function() dap().toggle_breakpoint() end, desc = "DAP: toggle breakpoint" },
     {
       "<leader>dB",
       function() dap().set_breakpoint(vim.fn.input("Breakpoint condition: ")) end,
@@ -195,6 +194,40 @@ return {
         program = prompt_for_executable,
         cwd = "${workspaceFolder}",
         terminal = "integrated",
+      },
+    }
+
+    -- ── pascal (gdb's built-in DAP, gdb >= 14) ──────────────────────────────────────────────
+    -- lldb handles FPC's DWARF poorly (no Pascal strings/sets), so pascal goes through gdb.
+    dap.adapters.gdb = { type = "executable", command = "gdb", args = { "--interpreter=dap", "--quiet" } }
+
+    local function pascal_build()
+      local out = build_output_path()
+      local dir = vim.fn.expand("%:p:h")
+      local units = vim.fs.joinpath(vim.fn.stdpath("cache"), "dap", "pascal-units")
+      vim.fn.mkdir(units, "p")
+      local cmd = { "fpc", "-Mobjfpc", "-Sh", "-g", "-gw3", "-gl", "-O-", "-Fu" .. dir, "-Fu" .. dir .. "/../src" }
+      vim.list_extend(cmd, { "-FU" .. units, "-o" .. out, vim.fn.expand("%:p") })
+      if not build(cmd) then
+        return dap.ABORT
+      end
+      return out
+    end
+
+    dap.configurations.pascal = {
+      {
+        name = "Build current program (-g) and launch",
+        type = "gdb",
+        request = "launch",
+        program = pascal_build,
+        cwd = "${workspaceFolder}",
+      },
+      {
+        name = "Launch executable",
+        type = "gdb",
+        request = "launch",
+        program = prompt_for_executable,
+        cwd = "${workspaceFolder}",
       },
     }
 
