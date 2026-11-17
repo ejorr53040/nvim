@@ -1,4 +1,4 @@
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 -- ocamllsp, dune, ocamlformat and earlybird live in the default opam switch. Add it to PATH so
 -- neovim finds them without needing `eval $(opam env)` in the shell that launched it.
@@ -21,6 +21,7 @@ require("lsp.ocamllsp")(capabilities)
 require("lsp.dockerls")(capabilities)
 require("lsp.yamlls")(capabilities)
 require("lsp.tailwindcss")(capabilities)
+require("lsp.pasls")(capabilities)
 
 -- Linters & Formatters
 require("lsp.efm-langserver")(capabilities)
@@ -41,5 +42,6 @@ vim.lsp.enable({
   "emmet_ls",
   "yamlls",
   "tailwindcss",
+  "pasls",
   "efm",
 })

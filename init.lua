@@ -7,9 +7,21 @@ vim.cmd("set smarttab")
 vim.cmd("set softtabstop=2")
 vim.g.mapleader = " "
 require("config.lazy")
+require("config.herdr").setup()
 vim.lsp.inlay_hint.enable()
+
+-- Force undercurl + RGB underline-color escape codes so diagnostics render as a
+-- colored squiggly line even when $TERM doesn't advertise Smulx/Setulc in terminfo.
+vim.cmd([[
+  let &t_Cs = "\e[4:3m"
+  let &t_Ce = "\e[4:0m"
+  let &t_8u = "\e[58:2::%lu:%lu:%lum"
+]])
+
 vim.diagnostic.config({
-  virtual_lines = true,
+  underline = true,
+  virtual_lines = false,
+  virtual_text = false,
 })
 
 local builtin = require('telescope.builtin')
@@ -31,9 +43,11 @@ vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.cursorline = true -- Highlight current line
 vim.opt.scrolloff = 10 -- Keep 10 lines above/below cursor
 vim.opt.sidescrolloff = 8 -- Keep 8 columns left/right of cursor
-vim.opt.wrap = false -- Don't wrap lines
+vim.opt.wrap = false -- Do not wrap lines that are too long to fit on screen
+vim.opt.linebreak = true -- When wrapping, break at word boundaries instead of mid-word
 vim.opt.cmdheight = 1 -- Command line height
 vim.opt.spelllang = { "en"} -- Set language for spellchecking
+vim.opt.clipboard = "unnamedplus" -- Yank/paste use the system clipboard
 
 
 -- Tabbing / Indentation
